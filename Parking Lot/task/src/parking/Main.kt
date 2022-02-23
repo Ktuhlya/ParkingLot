@@ -17,7 +17,7 @@ fun main() {
 
 fun choNado() {
   //  print("> ")
-    val str = readln()
+    val str = readLine() ?: error("hghgfttgb fgrg  fgewrgg")
     val inputList = str.split(" ").toList()
 
     when(inputList[0]) {
