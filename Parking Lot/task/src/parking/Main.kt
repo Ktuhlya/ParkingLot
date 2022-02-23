@@ -1,5 +1,6 @@
 package parking
 
+import java.util.*
 import kotlin.system.exitProcess
 
 var placeMap = mutableMapOf<Int, String>()
@@ -44,7 +45,7 @@ fun choNado() {
                 } else {
                     var key = placeMap.keyOfValue(EMPTY)
                     placeMap[key] = inputList[2]
-                    carList[key] = "$key ${inputList[1]} ${inputList[2]}"
+                    carList[key] = "$key ${inputList[1]} ${inputList[2].uppercase(Locale.getDefault())}"
                         //  println(placeMap)
                     println("${inputList[2]} car parked in spot ${key}.")
                     choNado()
@@ -82,6 +83,99 @@ fun choNado() {
             }
         }
         }
+        "spot_by_color" -> {
+            var colorList= mutableListOf<Int>()
+            var count = 0
+            if (placeMap.isEmpty()) {
+                println("Sorry, a parking lot has not been created.")
+                choNado()
+            }else{
+                if (carList.count{it== EMPTY} < carList.size ) {
+                    for (i in 1 until carList.size) {
+                        if ((carList[i] != EMPTY)
+                            && (carList[i].substringAfterLast(" ")
+                                    == inputList[1].uppercase(Locale.getDefault()))) {
+                            colorList.add(i)
+                        }
+                    }
+                    if (colorList.isEmpty()){
+                        println("No cars with color " +
+                                "${inputList[1]} were found.")
+                        choNado()
+                    }else {
+                        println(colorList.joinToString(", "))
+                        choNado()
+                    }
+                } else{
+                    println("Parking lot is empty.")
+                    choNado()
+                }
+            }
+        }
+        "reg_by_color" -> {
+            var colorList= mutableListOf<String>()
+            var count = 0
+            if (placeMap.isEmpty()) {
+                println("Sorry, a parking lot has not been created.")
+                choNado()
+            }else{
+                if (carList.count{it== EMPTY} < carList.size ) {
+                    for (i in 1 until carList.size) {
+                        if ((carList[i] != EMPTY)
+                            && (carList[i].substringAfterLast(" ")
+                                    == inputList[1].uppercase(Locale.getDefault()))) {
+                            var tempList = carList[i].split(" ").toList()
+                            colorList.add(tempList[1])
+                        }
+                    }
+                    if (colorList.isEmpty()){
+                        println("No cars with color" +
+                                " ${inputList[1]} were found.")
+                        choNado()
+                    }else {
+                        println(colorList.joinToString(", "))
+                        choNado()
+                    }
+                } else{
+                    println("Parking lot is empty.")
+                    choNado()
+                }
+            }
+        }
+        "spot_by_reg" -> {
+            var regList= mutableListOf<Int>()
+            var count = 0
+            if (placeMap.isEmpty()) {
+                println("Sorry, a parking lot has not been created.")
+                choNado()
+            }else{
+
+                if (carList.count{it== EMPTY} < carList.size ) {
+                    for (i in 1 until carList.size) {
+                        var tempList = carList[i].split(" ").toList()
+                        if ((carList[i] != EMPTY)
+                            && (tempList[1]
+                                    == inputList[1])) {
+                            regList.add(i)
+                        }
+                    }
+                    if (regList.isEmpty()){
+                        println("No cars with registration " +
+                                "number ${inputList[1]} were found.")
+                        choNado()
+                    }else{
+                        println(regList.joinToString(", "))
+                        choNado()
+                    }
+                }else{
+                    println("Parking lot is empty.")
+                    choNado()
+                }
+            }
+        }
+
+
+
         "exit" -> exitProcess(0)
     }
 }
